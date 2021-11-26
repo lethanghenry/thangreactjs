@@ -1,0 +1,16 @@
+
+export const listCategory=[
+    {id:0,name:"Thế Giới"},
+    {id:1,name:"Việt Nam"},
+    {id:2,name:"Thời Sự"},
+    {id:3,name:"Tin Tức"},
+    {id:4,name:"Bóng Đá"},
+    {id:5,name:"Âm Nhạc"},
+    {id:6,name:"Bóng Chuyền"},
+    {id:7,name:"Bóng Rổ"},
+    {id:8,name:"Cầu Lông"},
+    {id:9,name:"Quần Vợt"},
+    {id:10,name:"Đua Ngựa"},
+    {id:11,name:"Ảo Thuật"},
+    {id:12,name:"Chính Trị"}
+];
