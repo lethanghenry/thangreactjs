@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Axios from 'axios'
 import Search from './Search';
 import { useState, useEffect } from 'react'
+import Swal from 'sweetalert2';
 
 const listCategory=[
     {id:0,name:"Thế Giới"},
@@ -35,10 +36,11 @@ export default function Content() {
 
     const handlePosition = (position) => 
     {
-        console.log(listPosition)
+        var positionArray=position.split(',')
+        console.log( positionArray)
         return listPosition.map((value, key) => 
         {
-            return position.map((v) => 
+            return positionArray.map((v) => 
             {
                 if (value.id == v) {
                     
@@ -59,22 +61,35 @@ export default function Content() {
         })
     }
 
+    const deletedPostById=(id)=>
+    {
+        console.log(id)
+         axios.delete(`http://localhost:3000/blogs/${id}`).then(res => {
+            getList();
+        })
 
+    }
+const getList=()=>
+{
+    axios.get(`http://localhost:3000/blogs`)
+    .then(res => {
+        setBlogs(res.data);
+    })
+
+    .catch(error => console.log(error));
+}
     // call api get
     useEffect(() => {
-        axios.get(`http://localhost:3000/blogs`)
-            .then(res => {
-                setBlogs(res.data);
-            })
-            .catch(error => console.log(error));
+        getList();
     }, [])
 
-    const [list, setList] = useState([]);
+
     const searchTitleBlog = (textTitle) => {
+      
         axios
-          .get(`${`http://localhost:3000`}/blogs/search/q=${textTitle}`)
+          .get(`http://localhost:3000/blogs?q=${textTitle}`)
           .then((res) => {
-            setList(res.data.data);
+            setBlogs(res.data);
           })
           .catch((error) => console.log(error));
       };
@@ -121,17 +136,19 @@ export default function Content() {
                     </thead>
                     <tbody>
                         {blogs.map((value,key) =>
+                        
                         {
+                            console.log(value.public)
                             return (
                                 <tr>
                                 <td>{value.id}</td>
                                 <td>{value.title}</td>
                                 <td>{handleCategory(value.category)}</td>
-                                <td>{value.public ? "true" : "false"}</td>
+                                <td>{value.public==1 ? "Yes" : "No"}</td>
                                 <td>{handlePosition(value.position)}</td>
                                 <td>{value.data_pubblic}</td>
                                 <td> <Link className="btn btn-outline-primary"   to={`/edit/${value.id}`}>Edit</Link> </td>
-                                <td><button className="btn btn-outline-danger">Delete</button></td>
+                                <td><button className="btn btn-outline-danger" onClick={() => {deletedPostById(value.id)}}>Delete</button></td>
                             </tr>
                             )
                         }

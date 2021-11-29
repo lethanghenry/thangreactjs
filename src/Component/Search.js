@@ -12,6 +12,7 @@ export default function Search({searchTitleBlog}) {
   const searchTitle = () => {
     return searchTitleBlog(text);
   };
+  
     return (
         <div>
             <div className="card">
