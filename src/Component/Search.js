@@ -28,8 +28,8 @@ export default function Search({searchTitleBlog}) {
                     onChange={handleSearch}
                     />
                 </div>  
-                <div className="form-group text-center">
-                    <button className="btn btn-success"
+                <div className="form-group text-center mt-3">
+                    <button className="btn btn-outline-primary"
                     onClick={searchTitle}
                     >
                         Search

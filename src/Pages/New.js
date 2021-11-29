@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import React from 'react'
 import { useParams } from 'react-router';
-// import { Default } from 'react-toastify/dist/utils';
 
+// import { Default } from 'react-toastify/dist/utils';
 const listCategory = [
     { id: 0, name: "Thế Giới" },
     { id: 1, name: "Việt Nam" },
@@ -26,6 +26,7 @@ const listPosition = [
     { id: 3, name: "Châu Âu" },
     { id: 4, name: "Châu Mỹ" }
 ];
+
 // import { useState } from 'react'
 export default function New() {
     const url = "http://localhost:3000"
@@ -52,16 +53,15 @@ export default function New() {
                         id: id,
                     },
                 }
-
                 )
                 .then(function (response) {
                     // console.log(response.data)
                     setPost(response.data)
                     let dataPositon = response.data.position
-                    .split(",")
-                    .map(function (item) {
-                      return parseInt(item, 10);
-                    });
+                        .split(",")
+                        .map(function (item) {
+                            return parseInt(item, 10);
+                        });
                     setCheckedPosition([...dataPositon]);
                     setCheckedPublic(response.data.public == true ? 1 : 0)
                     // console.log(response.data.public)
@@ -71,10 +71,13 @@ export default function New() {
                 });
         }
     };
+
+    /*
+    param id
+    handle check position
+    */
     const handleCheckPosition = (id) => {
-      
         setCheckedPosition((prev) => {
-          
             const isChecked = checkedPosition.includes(id)
             if (isChecked) {
                 return checkedPosition.filter((item) => item !== id)
@@ -84,16 +87,24 @@ export default function New() {
             }
         })
     }
-    
 
+    /* 
+        param id
+        handle check public
+    */
     const handleCheckPublic = (id) => {
         return setCheckedPublic(id);
     }
 
+    /*
+        param e
+        function submit form 
+        call api
+    */
     const submit = (e) => {
         e.preventDefault();
         console.log((e.target.category.value))
-        
+
         const post = {
             title: e.target.title.value,
             des: e.target.des.value,
@@ -101,11 +112,10 @@ export default function New() {
             category: e.target.category.value,
             public: e.target.public.value,
             data_pubblic: e.target.data_pubblic.value,
-            position:checkedPosition.toString(),
+            position: checkedPosition.toString(),
             thumbs: e.target.thumbs.value.split(/(\\|\/)/g).pop(),
         }
-        
-console.log(post)
+
         if (id) {
             axios.put(`${url}/blogs/${id}`, post)
                 .then()
@@ -120,7 +130,6 @@ console.log(post)
     }
 
     return (
-
         <div>
             <div className="card">
                 <div className="card-header">
@@ -128,7 +137,6 @@ console.log(post)
                 </div>
                 <div className="card-body">
                     <form onSubmit={submit}>
-
                         <div className="form-group">
                             <label>Tiêu Đề </label>
                             <br />
@@ -178,12 +186,10 @@ console.log(post)
                                 listPosition.map((value, key) => {
                                     return (
                                         <div className="form-check form-check-inline" key={key}>
-                                        
                                             <input className="form-check-input"
                                                 type="checkbox"
                                                 id={`position-${value.id}`}
                                                 name="position"
-                                               
                                                 checked={checkedPosition.includes(value.id)}
                                                 onChange={() => handleCheckPosition(value.id)}
                                             />
@@ -195,7 +201,6 @@ console.log(post)
                                     )
                                 })
                             }
-
                             <br />
                         </div>
 
@@ -206,27 +211,28 @@ console.log(post)
                                 <input
                                     className="form-check-input"
                                     type="radio"
+                                    id="1"
                                     name="public"
                                     defaultValue="1"
                                     checked={checkedPublic === 1}
                                     onChange={() => handleCheckPublic(1)}
                                 />
-                               
                                 <label className="form-check-label" htmlFor="1">Yes</label>
                             </div>
 
-                   <div className="form-check form-check-inline">
+                            <div className="form-check form-check-inline">
                                 <input
                                     className="form-check-input"
                                     type="radio"
                                     name="public"
                                     defaultValue="0"
+                                    id="0"
                                     checked={checkedPublic === 0}
                                     onChange={() => handleCheckPublic(0)}
                                 />
                                 <label className="form-check-label" htmlFor="0">No</label>
                             </div>
-                        {console.log(checkedPublic)}
+                            {console.log(checkedPublic)}
                         </div>
                         <br />
 
@@ -236,7 +242,7 @@ console.log(post)
                                 <br />
                                 <select className="form-control" name="category">
                                     {
-                                        
+
                                         listCategory.map((value, key) => {
                                             if (value.id == post.category) {
                                                 return (
@@ -252,15 +258,11 @@ console.log(post)
                                                     </option>
                                                 )
                                             }
-
                                         }
                                         )
                                     }
-
                                 </select>
-
                                 <br />
-
                             </div>
 
                             <div className="form-group col-md-6">
@@ -270,7 +272,6 @@ console.log(post)
                                     name="data_pubblic"
                                     className="form-control"
                                     defaultValue={post ? post.data_pubblic : ""}
-
                                 />
                                 <br />
                             </div>
