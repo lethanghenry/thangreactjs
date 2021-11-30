@@ -3,6 +3,9 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import React from 'react'
 import { useParams } from 'react-router';
+import Swal from 'sweetalert2';
+
+
 
 // import { Default } from 'react-toastify/dist/utils';
 const listCategory = [
@@ -104,7 +107,6 @@ export default function New() {
     const submit = (e) => {
         e.preventDefault();
         console.log((e.target.category.value))
-
         const post = {
             title: e.target.title.value,
             des: e.target.des.value,
@@ -117,15 +119,19 @@ export default function New() {
         }
 
         if (id) {
-            axios.put(`${url}/blogs/${id}`, post)
-                .then()
-                .catch((error) => console.log(error));
+            axios.put(`${url}/blogs/${id}`, post).then((res) => {
+                Swal.fire("Cập nhật thành công", "", "success");
+                window.location.href = "http://localhost:3001/";
+            }).catch((error) => console.log(error));
         }
         else {
-            axios.post(`${url}/blogs`, post)
-                .then()
-                .catch((error) => console.log(error));
+            axios.post(`${url}/blogs`, post).then((res) => {
+                Swal.fire("Thêm mới thành công", "", "success");
+                window.location.href = "http://localhost:3001/";
+            }
+            ).catch((error) => console.log(error));
         }
+
 
     }
 
@@ -275,16 +281,13 @@ export default function New() {
                                 />
                                 <br />
                             </div>
-                        </div>
-
-                        <div className="form-group d-flex align-items-center justify-content-center">
-                            <button className="btn btn-primary m-3" type="submit">Submit</button>
-                            <button className="btn btn-success m-3" type="reset">Clear</button>
+                            <div className="form-group d-flex align-items-center justify-content-center">
+                                <button className="btn btn-primary m-3" type="submit">Submit</button>
+                                <button className="btn btn-success m-3" type="reset">Clear</button>
+                                <br />
+                            </div>
                         </div>
                     </form>
-                </div>
-                <div className="card-footer">
-
                 </div>
             </div>
         </div>

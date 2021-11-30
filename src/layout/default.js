@@ -1,10 +1,10 @@
 
-import './App.css';
-import Header from './Component/Header';
-import Footer from './Component/Footer';
-import Content from './Component/Content';
-import Menu from './Component/Menu';
-import New from './Pages/New';
+import '../App.css';
+import Header from '../Component/Header';
+import Footer from '../Component/Footer';
+import Content from '../Component/blog/Content';
+import Menu from '../Component/Menu';
+import New from '../Component/blog/New';
 import { Routes, Route } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';

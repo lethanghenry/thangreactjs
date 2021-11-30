@@ -1,13 +1,12 @@
 import React from 'react'
 import { useState } from 'react'
 
+// Search blog by searchTitleBlog
 export default function Search({searchTitleBlog}) {
    const [text, setText] = useState("")
-
    const handleSearch = (event) => {
     return setText(event.target.value);
   };  
-  
 
   const searchTitle = () => {
     return searchTitleBlog(text);
@@ -35,9 +34,6 @@ export default function Search({searchTitleBlog}) {
                         Search
                     </button>
                 </div>
-                </div>
-                <div className="card-footer">
-
                 </div>
             </div>
         </div>

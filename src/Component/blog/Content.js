@@ -7,7 +7,7 @@ import Search from './Search';
 import { useState, useEffect } from 'react'
 import Swal from 'sweetalert2';
 
-// list category
+// List category
 const listCategory = [
     { id: 0, name: "Thế Giới" },
     { id: 1, name: "Việt Nam" },
@@ -24,7 +24,7 @@ const listCategory = [
     { id: 12, name: "Chính Trị" }
 ];
 
-// list position
+// List position
 const listPosition = [
     { id: 1, name: "Việt Nam" },
     { id: 2, name: "Châu Á" },
@@ -33,24 +33,24 @@ const listPosition = [
 ];
 // Print List blog
 export default function Content() {
-
     const [blogs, setBlogs] = useState([])
-
-
+    // Handle Position
+    // Param postion
     const handlePosition = (position) => {
-        var positionArray = position.split(',')
-        console.log(positionArray)
-        return listPosition.map((value, key) => {
-            return positionArray.map((v) => {
+        var arr = [];
+        var positionArray = position.split(',');
+        listPosition.map((value, key) => {
+            positionArray.map((v) => {
                 if (value.id == v) {
-
-                    return value.name;
+                    arr.push(value.name)
                 }
             })
         })
+        return arr.join(', ');
     }
 
     // Handle Category
+    // Param Category
     const handleCategory = (category) => {
         return listCategory.map((value, key) => {
 
@@ -60,32 +60,46 @@ export default function Content() {
         })
     }
 
-    // param id
-    // delete post by id
+    // Param id
+    // Delete post by id
     const deletedPostById = (id) => {
-        console.log(id)
-        axios.delete(`http://localhost:3000/blogs/${id}`).then(res => {
-            getList();
+        Swal.fire({
+            title: "Bạn có muốn xóa bài viết này không?",
+            text: "",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Có",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`http://localhost:3000/blogs/${id}`).then((res) => {
+                    Swal.fire("Xóa thành công", "", "success");
+                    return getList();
+                })
+            }
+            else {
+                Swal.fire("Xóa không thành công", "", "success");
+            }
         })
-
     }
 
-    // show all list blog
+    // Show all list blog
     const getList = () => {
         axios.get(`http://localhost:3000/blogs`)
             .then(res => {
                 setBlogs(res.data);
             })
-
             .catch(error => console.log(error));
     }
 
-    // call api get
+    // Call api get
     useEffect(() => {
         getList();
     }, [])
 
     // Searcg Blog by title
+    // Param textTitle
     const searchTitleBlog = (textTitle) => {
         axios
             .get(`http://localhost:3000/blogs?q=${textTitle}`)
@@ -151,9 +165,6 @@ export default function Content() {
                             )}
                         </tbody>
                     </table>
-                </div>
-                <div className="card-footer">
-
                 </div>
             </div>
         </div>
